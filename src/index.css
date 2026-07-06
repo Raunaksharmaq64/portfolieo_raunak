@@ -490,22 +490,95 @@ body.light-theme .header.scrolled {
 
 .btn-resume {
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 0.6rem 1.4rem;
-  background-color: transparent;
-  color: hsl(var(--text-primary));
-  border: 1px solid hsl(var(--border-color));
+  padding: 0.65rem 1.6rem;
+  background: linear-gradient(135deg, #d97706, #f59e0b, #fbbf24);
+  color: #0f172a;
+  border: none;
   border-radius: var(--radius-sm);
-  transition: var(--transition-smooth);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+}
+
+.btn-resume::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-resume:hover::before {
+  left: 100%;
 }
 
 .btn-resume:hover {
-  background: linear-gradient(135deg, hsl(var(--accent-color)), #f59e0b);
-  color: #030712;
-  border-color: hsl(var(--accent-color));
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(251, 191, 36, 0.3);
+  background: linear-gradient(135deg, #b45309, #d97706, #f59e0b);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(217, 119, 6, 0.45), 0 0 15px rgba(251, 191, 36, 0.2);
+  color: #0f172a;
+}
+
+.btn-resume:active {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+.btn-resume i {
+  font-size: 0.8rem;
+  animation: downloadPulse 2s ease-in-out infinite;
+}
+
+@keyframes downloadPulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+}
+
+.btn-resume-view {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.65rem 1.6rem;
+  background: transparent;
+  color: hsl(var(--accent-color));
+  border: 1.5px solid hsl(var(--accent-color));
+  border-radius: var(--radius-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.btn-resume-view:hover {
+  background: hsla(var(--accent-color), 0.1);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.2);
+  color: hsl(var(--accent-color));
+}
+
+.btn-resume-view:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.btn-resume-view i {
+  font-size: 0.8rem;
 }
 
 .hamburger {

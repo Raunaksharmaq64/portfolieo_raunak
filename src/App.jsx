@@ -105,13 +105,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('portfolioTheme') || 'dark';
-    setTheme(savedTheme);
-    if (savedTheme === 'light') {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
+    setTheme('dark');
+    document.body.classList.remove('light-theme');
+    localStorage.setItem('portfolioTheme', 'dark');
   }, []);
 
   const toggleTheme = () => {
@@ -280,7 +276,8 @@ export default function App() {
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             <i className={theme === 'light' ? 'fas fa-sun' : 'fas fa-moon'}></i>
           </button>
-          <a href={import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf"} className="btn-resume" download="Raunak_Sharma_Resume.pdf">Resume <i className="fas fa-download"></i></a>
+          <a href={import.meta.env.BASE_URL + "resume.html"} className="btn-resume-view" target="_blank" rel="noopener noreferrer">View Resume <i className="fas fa-eye"></i></a>
+          <a href={import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf"} className="btn-resume" download="Raunak_Sharma_Resume.pdf">Download <i className="fas fa-download"></i></a>
           <button className={`hamburger ${mobileMenuOpen ? 'active' : ''}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Open menu">
             <span className="bar"></span>
             <span className="bar"></span>

@@ -7,7 +7,7 @@ export default function DevTerminal() {
   const [showManual, setShowManual] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [history, setHistory] = useState([
-    { text: "Raunak's Terminal OS v1.3.0", type: 'system' },
+    { text: "Raunak's Terminal OS v1.4.0", type: 'system' },
     { text: "Type 'help' to see active command lists or click the '?' button above for the interactive guide.", type: 'system' },
     { text: "", type: 'empty' }
   ]);
@@ -17,7 +17,7 @@ export default function DevTerminal() {
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const availableCmds = ['about', 'skills', 'projects', 'contact', 'resume', 'theme', 'locate', 'visitor', 'socials', 'neofetch', 'history', 'cls', 'clear', 'exit', 'help', 'man'];
+  const availableCmds = ['about', 'skills', 'projects', 'contact', 'resume', 'resume view', 'theme', 'locate', 'visitor', 'socials', 'neofetch', 'history', 'cls', 'clear', 'exit', 'help', 'man'];
 
   useEffect(() => {
     // Show helper hint 2.5 seconds after page load if the user has not opened it yet
@@ -95,11 +95,11 @@ export default function DevTerminal() {
         return;
       case 'neofetch':
         newLines.push(
-          { text: "      /\\_/\\       OS: RaunakOS v1.3.0", type: 'output' },
+          { text: "      /\\_/\\       OS: RaunakOS v1.4.0", type: 'output' },
           { text: "     ( o.o )      College: LNCTS, Bhopal", type: 'output' },
           { text: "      > ^ <       Degree: B.Tech CSE (2023 - Present)", type: 'output' },
           { text: "                  Uptime: 2 hours, 18 minutes", type: 'output' },
-          { text: "                  Shell: RaunakBash v1.3", type: 'output' },
+          { text: "                  Shell: RaunakBash v1.4", type: 'output' },
           { text: "                  Status: Open to Work 💼", type: 'output' }
         );
         break;
@@ -161,13 +161,18 @@ export default function DevTerminal() {
         );
         break;
       case 'resume':
-        newLines.push({ text: "Triggering resume PDF download...", type: 'system' });
-        const link = document.createElement('a');
-        link.href = import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf";
-        link.download = "Raunak_Sharma_Resume.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        if (arg === 'view') {
+          newLines.push({ text: "Opening live resume in new tab...", type: 'system' });
+          window.open(import.meta.env.BASE_URL + 'resume.html', '_blank');
+        } else {
+          newLines.push({ text: "Triggering resume PDF download...", type: 'system' });
+          const link = document.createElement('a');
+          link.href = import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf";
+          link.download = "Raunak_Sharma_Resume.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
         break;
       case 'theme':
         newLines.push({ text: "Toggling visual theme...", type: 'system' });
@@ -320,14 +325,44 @@ export default function DevTerminal() {
                     <td style={{ padding: '4px 0' }}><code>resume</code></td>
                   </tr>
                   <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>resume view</code></td>
+                    <td style={{ padding: '4px 0' }}>Opens live resume in new tab</td>
+                    <td style={{ padding: '4px 0' }}><code>resume view</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>about</code></td>
+                    <td style={{ padding: '4px 0' }}>Quick bio & introduction</td>
+                    <td style={{ padding: '4px 0' }}><code>about</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>contact</code></td>
+                    <td style={{ padding: '4px 0' }}>Email, GitHub & LinkedIn</td>
+                    <td style={{ padding: '4px 0' }}><code>contact</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
                     <td style={{ padding: '4px 0' }}><code>socials</code></td>
                     <td style={{ padding: '4px 0' }}>Lists social accounts links</td>
                     <td style={{ padding: '4px 0' }}><code>socials</code></td>
                   </tr>
                   <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>visitor</code></td>
+                    <td style={{ padding: '4px 0' }}>Shows current visitor greeting</td>
+                    <td style={{ padding: '4px 0' }}><code>visitor</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>history</code></td>
+                    <td style={{ padding: '4px 0' }}>Shows shell command history</td>
+                    <td style={{ padding: '4px 0' }}><code>history</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
                     <td style={{ padding: '4px 0' }}><code>cls</code> / <code>clear</code></td>
                     <td style={{ padding: '4px 0' }}>Clears the terminal screen logs</td>
                     <td style={{ padding: '4px 0' }}><code>cls</code></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '4px 0' }}><code>exit</code></td>
+                    <td style={{ padding: '4px 0' }}>Closes the terminal window</td>
+                    <td style={{ padding: '4px 0' }}><code>exit</code></td>
                   </tr>
                 </tbody>
               </table>
