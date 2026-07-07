@@ -6,7 +6,7 @@
 
 # RAUNAK SHARMA
 📍 Bhopal, Madhya Pradesh, India | 📧 [raunaksharma88630mt@gmail.com](mailto:raunaksharma88630mt@gmail.com)
-🌐 [raunaksharmaq64.github.io/portfolio](https://raunaksharmaq64.github.io/raunak/) | 🐙 [github.com/Raunaksharmaq64](https://github.com/Raunaksharmaq64) | 🔗 [linkedin.com/in/raunak-sharma-q64](https://www.linkedin.com/in/raunak-sharma-q64/)
+🌐 [raunaksharmaq64.github.io/raunak](https://raunaksharmaq64.github.io/raunak/) | 🐙 [github.com/Raunaksharmaq64](https://github.com/Raunaksharmaq64) | 🔗 [linkedin.com/in/raunak-sharma-q64](https://www.linkedin.com/in/raunak-sharma-q64/)
 
 ---
 
