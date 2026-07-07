@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raunak Sharma - Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #475569;
+      --accent: #d97706;
+      --light-accent: #fef3c7;
+      --border: #e2e8f0;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--primary);
+      background-color: #f8fafc;
+      line-height: 1.4;
+      padding: 2rem 1rem;
+    }
+
+    .resume-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -1px;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    .title-subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    .contact-info a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .contact-info a:hover {
+      color: var(--accent);
+    }
+
+    .contact-info span:not(:last-child)::after {
+      content: " •";
+      margin-left: 0.8rem;
+      color: var(--border);
+    }
+
+    .section-divider {
+      border: 0;
+      height: 1px;
+      background: var(--border);
+      margin: 1.2rem 0;
+    }
+
+    section {
+      margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--primary);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title::after {
+      content: "";
+      flex-grow: 1;
+      height: 1px;
+      background: var(--light-accent);
+    }
+
+    p.summary {
+      font-size: 0.85rem;
+      color: var(--secondary);
+      text-align: justify;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .education-item h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .education-item .meta {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .education-item p {
+      font-size: 0.8rem;
+      color: var(--secondary);
+    }
+
+    .skills-category {
+      margin-bottom: 0.6rem;
+      font-size: 0.8rem;
+    }
+
+    .skills-category strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .skills-category span {
+      color: var(--secondary);
+    }
+
+    .project-item {
+      margin-bottom: 1rem;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.2rem;
+    }
+
+    .project-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .project-tech {
+      font-family: var(--font-code);
+      font-size: 0.72rem;
+      background: var(--light-accent);
+      color: #92400e;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .project-bullets {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .project-bullets li {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      position: relative;
+      padding-left: 0.8rem;
+      margin-bottom: 0.25rem;
+      text-align: justify;
+    }
+
+    .project-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .cert-item {
+      font-size: 0.8rem;
+    }
+
+    .cert-item strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .cert-item p {
+      color: var(--secondary);
+      font-size: 0.75rem;
+      margin-top: 0.1rem;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .resume-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+      hr.section-divider {
+        margin: 0.8rem 0;
+      }
+      section {
+        margin-bottom: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="resume-container">
+    <header>
+      <h1>Raunak Sharma</h1>
+      <div class="title-subtitle">AI-Pilot Software Engineer</div>
+      <div class="contact-info">
+        <span>📍 Bhopal, India</span>
+        <span>📧 <a href="mailto:raunaksharma88630mt@gmail.com">raunaksharma88630mt@gmail.com</a></span>
+        <span>🌐 <a href="https://raunaksharmaq64.github.io/portfolieo_raunak/" target="_blank">raunaksharmaq64.github.io/portfolieo_raunak</a></span>
+        <span>🐙 <a href="https://github.com/Raunaksharmaq64" target="_blank">GitHub</a></span>
+        <span>🔗 <a href="https://www.linkedin.com/in/raunak-sharma-q64/" target="_blank">LinkedIn</a></span>
+      </div>
+    </header>
+
+    <hr class="section-divider">
+
+    <section>
+      <div class="section-title">Professional Summary</div>
+      <p class="summary">
+        Highly efficient **AI-Pilot Full-Stack Developer** and Computer Science student at **LNCTS Bhopal**. Specializes in leveraging state-of-the-art Large Language Models (LLMs) and Generative AI workflows to rapidly design, construct, and debug complex full-stack applications. Proven capability of shipping 17+ interactive projects (Full-Stack, Java Systems, and Custom UI Synthesizers) by blending strong core coding fundamentals (JavaScript, Java, SQL) with advanced AI-assisted engineering prompts and automated developer environments.
+      </p>
+    </section>
+
+    <section class="grid-2col">
+      <div>
+        <div class="section-title">Education</div>
+        <div class="education-item">
+          <h3>Lakshmi Narain College of Technology & Science (LNCTS)</h3>
+          <div class="meta">B.Tech in Computer Science & Engineering • Bhopal, India</div>
+          <p>Graduation: 2027 (Expected) • Current GPA Focus: Data Structures, OOP, SQL Databases</p>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">Technical Skills & AI Toolkit</div>
+        <div class="skills-category">
+          <strong>AI & Prompting:</strong> <span>LLM Orchestration (Gemini, Claude, GPT), Prompt Patterns, AI Agent Workflows</span>
+        </div>
+        <div class="skills-category">
+          <strong>Languages:</strong> <span>JavaScript (ES6+), Java, Python, SQL, HTML5, CSS3</span>
+        </div>
+        <div class="skills-category">
+          <strong>Frameworks:</strong> <span>React.js, Node.js, Express.js, FastAPI</span>
+        </div>
+        <div class="skills-category">
+          <strong>Databases & Tools:</strong> <span>PostgreSQL, MongoDB, Git, Postman, Playwright</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">Featured Projects</div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-title">HostelBuddy — AI-Accelerated Discovery Platform</span>
+          <span class="project-tech">React • Node.js • MongoDB • Express</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Leveraged AI coding environments to accelerate development cycles, shipping a complete PG & Hostel matching engine in under 3 weeks.</li>
+          <li>Constructed relational database models mapping property amenities, gender preferences, and budget ranges.</li>
+          <li>Designed a verified administrative control pipeline enabling property authentication and secure lead generation reports.</li>
+        </ul>
+      </div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-title">AURA — Perfume Customizer & Olfactory Synthesizer</span>
+          <span class="project-tech">JavaScript • Canvas API • Web Audio API</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Designed an olfactory synthesizer mapping luxury perfume ingredients (Amber, Bergamot, Musk) to specific audio resonance waves.</li>
+          <li>Programmed a custom rendering interface using the HTML5 Canvas API displaying collar styles and glass tint gradients.</li>
+          <li>Leveraged LLM logic patterns to formulate olfactory-to-frequency translation algorithms.</li>
+        </ul>
+      </div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-title">Interactive Dev Console (Portfolio Shell)</span>
+          <span class="project-tech">React • CSS Keyframes • Command Shell</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Created a floating monospace developer console widget supporting tab auto-completion and arrow key command history.</li>
+          <li>Implemented layout features including neofetch specs readouts, theme controllers, and locate scrolls.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">Certifications & Training</div>
+      <div class="certs-grid">
+        <div class="cert-item">
+          <strong>TCS & Tata Group — Generative AI Experience</strong>
+          <p>Studied prompting models, LLM parameters, and enterprise AI automation flows.</p>
+        </div>
+        <div class="cert-item">
+          <strong>AWS Academy — Cloud Foundations</strong>
+          <p>Acquired training on AWS core infrastructure (EC2, S3, RDS) and cloud security.</p>
+        </div>
+        <div class="cert-item">
+          <strong>JPMorgan Chase — Software Engineering</strong>
+          <p>Completed project scenarios testing software engineering tools and logic flows.</p>
+        </div>
+        <div class="cert-item">
+          <strong>Commonwealth Bank — Cybersecurity</strong>
+          <p>Studied key patterns in secure coding, threat modeling, and encryption models.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
