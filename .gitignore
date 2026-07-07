@@ -95,8 +95,4 @@ dist-ssr/
 # Vite cache
 .vite/
 
-# Resume Templates & Build Artifacts
-RESUME_TEMPLATE.md
-resume.html
-generate-pdf.js
-Raunak_Sharma_Resume.pdf
+
