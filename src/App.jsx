@@ -10,15 +10,11 @@ import ScrollReveal from './components/ScrollReveal';
 // ==========================================
 // CONFIGURATIONS
 // ==========================================
-// To receive emails directly in your inbox from the contact form:
-// 1. Go to https://web3forms.com and enter your email address.
-// 2. You will receive a free Access Key in your email inbox immediately.
-// 3. Paste that Access Key in the quotes below:
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY = "789238be-bb23-4615-8059-123e4e406f7e";
 
 // ==========================================
 // MAIN REACT CONTROLLER
-// =============================================
+// ==========================================
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -181,7 +177,7 @@ export default function App() {
   // Scroll-spy: track which section is in view
   useEffect(() => {
     const sectionIds = [
-      'hero', 'about', 'github', 'services', 'skills', 
+      'hero', 'about', 'github', 'services', 'skills',
       'projects', 'testimonials', 'experience', 'certifications', 'articles', 'contact'
     ];
     const observer = new IntersectionObserver(
@@ -304,8 +300,8 @@ export default function App() {
         </div>
 
         {/* Mobile menu backdrop overlay */}
-        <div 
-          className={`mobile-nav-backdrop ${mobileMenuOpen ? 'active' : ''}`} 
+        <div
+          className={`mobile-nav-backdrop ${mobileMenuOpen ? 'active' : ''}`}
           onClick={() => setMobileMenuOpen(false)}
           aria-hidden="true"
         ></div>
@@ -535,9 +531,9 @@ export default function App() {
             <div className="github-card">
               <div className="github-card-header">
                 <div className="github-user-info">
-                  <img 
-                    src="https://avatars.githubusercontent.com/u/148003666?v=4" 
-                    alt="Raunak Sharma GitHub" 
+                  <img
+                    src="https://avatars.githubusercontent.com/u/148003666?v=4"
+                    alt="Raunak Sharma GitHub"
                     className="github-avatar"
                     onError={(e) => { e.target.src = import.meta.env.BASE_URL + "assets/images/raunak.png"; }}
                   />
@@ -547,10 +543,10 @@ export default function App() {
                   </div>
                 </div>
 
-                <a 
-                  href="https://github.com/Raunaksharmaq64" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://github.com/Raunaksharmaq64"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-secondary"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
                 >
@@ -745,8 +741,8 @@ export default function App() {
                   aria-label="Search creations"
                 />
                 {searchQuery && (
-                  <button 
-                    className="project-search-clear" 
+                  <button
+                    className="project-search-clear"
                     onClick={() => setSearchQuery('')}
                     aria-label="Clear search"
                     title="Clear search"
@@ -772,26 +768,26 @@ export default function App() {
 
               {/* Project Category Filter Tabs with Live Counts */}
               <div className="project-filters">
-                <button 
-                  className={`filter-tab ${projectFilter === 'all' ? 'active' : ''}`} 
+                <button
+                  className={`filter-tab ${projectFilter === 'all' ? 'active' : ''}`}
                   onClick={() => setProjectFilter('all')}
                 >
                   All Projects <span className="filter-count">{categoryCounts.all}</span>
                 </button>
-                <button 
-                  className={`filter-tab ${projectFilter === 'fullstack' ? 'active' : ''}`} 
+                <button
+                  className={`filter-tab ${projectFilter === 'fullstack' ? 'active' : ''}`}
                   onClick={() => setProjectFilter('fullstack')}
                 >
                   Full-Stack & AI <span className="filter-count">{categoryCounts.fullstack}</span>
                 </button>
-                <button 
-                  className={`filter-tab ${projectFilter === 'java' ? 'active' : ''}`} 
+                <button
+                  className={`filter-tab ${projectFilter === 'java' ? 'active' : ''}`}
                   onClick={() => setProjectFilter('java')}
                 >
                   Java & SQL <span className="filter-count">{categoryCounts.java}</span>
                 </button>
-                <button 
-                  className={`filter-tab ${projectFilter === 'frontend' ? 'active' : ''}`} 
+                <button
+                  className={`filter-tab ${projectFilter === 'frontend' ? 'active' : ''}`}
                   onClick={() => setProjectFilter('frontend')}
                 >
                   Frontend & Design <span className="filter-count">{categoryCounts.frontend}</span>
@@ -805,7 +801,7 @@ export default function App() {
                   {searchQuery && <> matching "<em>{searchQuery}</em>"</>}
                 </span>
                 {(searchQuery || projectFilter !== 'all') && (
-                  <button 
+                  <button
                     className="reset-search-btn"
                     onClick={() => { setSearchQuery(''); setProjectFilter('all'); }}
                   >
@@ -834,7 +830,7 @@ export default function App() {
                       <div className="project-icon-wrapper">
                         <i className={
                           project.category === 'fullstack' ? 'fas fa-laptop-code' :
-                          project.category === 'frontend' ? 'fab fa-react' : 'fab fa-java'
+                            project.category === 'frontend' ? 'fab fa-react' : 'fab fa-java'
                         }></i>
                       </div>
                     </div>
@@ -861,7 +857,7 @@ export default function App() {
                   <div className="no-projects-icon">🔍</div>
                   <h3>No creations found</h3>
                   <p>We couldn't find any projects matching "{searchQuery}". Try searching for a different keyword or reset filters.</p>
-                  <button 
+                  <button
                     className="btn btn-primary"
                     onClick={() => { setSearchQuery(''); setProjectFilter('all'); }}
                   >
@@ -1019,7 +1015,7 @@ export default function App() {
                 </div>
                 <h3 className="cert-title">JP Morgan Chase & Co.</h3>
                 <p className="cert-sub">Software Engineering Job Simulation</p>
-                
+
                 <p className="cert-description">
                   Engineered interactive data charts and visualization feeds using React and Perspective. Formulated real-time stock dashboards and structured object-oriented system components.
                 </p>
@@ -1029,7 +1025,7 @@ export default function App() {
                   <span className="cert-skill-tag">Data Visualizer</span>
                   <span className="cert-skill-tag">OOP</span>
                 </div>
-                
+
                 <a href={import.meta.env.BASE_URL + "assets/certificates/jpmorgan.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
                   View Certificate <i className="fas fa-file-pdf"></i>
                 </a>
@@ -1275,35 +1271,35 @@ export default function App() {
                 <form className="contact-form" onSubmit={handleContactSubmit}>
                   <div className="form-group">
                     <label htmlFor="form-name">Name</label>
-                    <input 
-                      type="text" 
-                      id="form-name" 
-                      placeholder="Your Name" 
-                      value={contactForm.name} 
+                    <input
+                      type="text"
+                      id="form-name"
+                      placeholder="Your Name"
+                      value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                      required 
-                      autoComplete="off" 
+                      required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="form-group">
                     <label htmlFor="form-email">Email Address</label>
-                    <input 
-                      type="email" 
-                      id="form-email" 
-                      placeholder="name@example.com" 
-                      value={contactForm.email} 
+                    <input
+                      type="email"
+                      id="form-email"
+                      placeholder="name@example.com"
+                      value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      required 
-                      autoComplete="off" 
+                      required
+                      autoComplete="off"
                     />
                   </div>
                   <div className="form-group">
                     <label htmlFor="form-body">Message</label>
-                    <textarea 
-                      id="form-body" 
-                      rows="5" 
-                      placeholder="Write your message here..." 
-                      value={contactForm.message} 
+                    <textarea
+                      id="form-body"
+                      rows="5"
+                      placeholder="Write your message here..."
+                      value={contactForm.message}
                       onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                       required
                     ></textarea>
@@ -1312,7 +1308,7 @@ export default function App() {
                   {formStatus === 'missing_key' && (
                     <div style={{ padding: '1rem', background: 'rgba(251, 191, 36, 0.1)', border: '1px solid rgba(251, 191, 36, 0.3)', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.88rem', color: 'hsl(var(--text-primary))' }}>
                       <p style={{ margin: '0 0 0.5rem 0' }}>💡 <strong>Quick Send:</strong> You can send your message directly to Raunak's inbox:</p>
-                      <a 
+                      <a
                         href={`mailto:raunaksharma88630mt@gmail.com?subject=${encodeURIComponent('Portfolio Contact from ' + (contactForm.name || 'Visitor'))}&body=${encodeURIComponent(contactForm.message || '')}`}
                         className="btn btn-primary"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.8rem', fontSize: '0.82rem', marginTop: '0.25rem' }}
