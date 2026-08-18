@@ -3,6 +3,7 @@ import { projectsData } from './data/projectsData';
 import TiltCard from './components/TiltCard';
 import InteractiveBackground from './components/InteractiveBackground';
 import DevTerminal from './components/DevTerminal';
+import ScrollReveal from './components/ScrollReveal';
 
 // ==========================================
 // CONFIGURATIONS
@@ -28,9 +29,32 @@ export default function App() {
   const [typewriterText, setTypewriterText] = useState('');
   const [activeBioTab, setActiveBioTab] = useState('short');
   const [projectFilter, setProjectFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+
+  const categoryCounts = {
+    all: projectsData.length,
+    fullstack: projectsData.filter(p => p.category === 'fullstack').length,
+    java: projectsData.filter(p => p.category === 'java').length,
+    frontend: projectsData.filter(p => p.category === 'frontend').length,
+  };
+
+  const quickFilterTags = ['React', 'Java', 'Node.js', 'AI', 'MongoDB', 'Python', 'SQL', 'CSS3'];
+
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesCategory = projectFilter === 'all' || project.category === projectFilter;
+    if (!matchesCategory) return false;
+
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase().trim();
+    const matchesTitle = project.title.toLowerCase().includes(query);
+    const matchesTagline = project.tagline.toLowerCase().includes(query);
+    const matchesDesc = project.description.toLowerCase().includes(query);
+    const matchesTech = project.techStack.some(t => t.toLowerCase().includes(query));
+    return matchesTitle || matchesTagline || matchesDesc || matchesTech;
+  });
 
   const [greeting, setGreeting] = useState('Welcome 👋');
   const typewriterTimerRef = useRef(null);
@@ -105,9 +129,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    setTheme('dark');
-    document.body.classList.remove('light-theme');
-    localStorage.setItem('portfolioTheme', 'dark');
+    const savedTheme = localStorage.getItem('portfolioTheme') || 'dark';
+    setTheme(savedTheme);
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -149,7 +177,7 @@ export default function App() {
 
   // Scroll-spy: track which section is in view
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'skills', 'projects', 'experience', 'certifications', 'contact'];
+    const sectionIds = ['hero', 'about', 'services', 'skills', 'projects', 'experience', 'certifications', 'contact'];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -220,9 +248,6 @@ export default function App() {
     }
   };
 
-  const filteredProjects = projectFilter === 'all'
-    ? projectsData
-    : projectsData.filter(p => p.category === projectFilter);
 
   return (
     <>
@@ -267,7 +292,6 @@ export default function App() {
       )}
 
       {/* 4. Header & Navbar Navigation */}
-      {/* 4. Header & Navbar Navigation */}
       <header className={`header ${headerScrolled ? 'scrolled' : ''}`}>
         <div className="logo">
           <a href="#hero">R<span>aunak</span></a>
@@ -288,6 +312,7 @@ export default function App() {
           <ul className="nav-links">
             <li><a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</a></li>
             <li><a href="#about" className={`nav-link ${activeSection === 'about' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About</a></li>
+            <li><a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Services</a></li>
             <li><a href="#skills" className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Skills</a></li>
             <li><a href="#projects" className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Projects</a></li>
             <li><a href="#experience" className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Experience</a></li>
@@ -373,14 +398,16 @@ export default function App() {
       <section id="about" className="about-section">
         <div className="about-glow"></div>
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">My Background</span>
-            <h2 className="title">About Raunak</h2>
-            <div className="header-line"></div>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">My Background</span>
+              <h2 className="title">About Raunak</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
 
           <div className="about-content">
-            <div className="about-left">
+            <ScrollReveal className="about-left">
               <p className="bio-highlight">
                 Translating complex logical challenges into elegant, highly performant software products.
               </p>
@@ -428,9 +455,9 @@ export default function App() {
                   )}
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="about-right">
+            <ScrollReveal direction="left" className="about-right">
               <TiltCard className="profile-dashboard-card" restTransform="perspective(1000px) rotateY(-10deg) rotateX(5deg)">
                 <div className="card-dots">
                   <span className="dot"></span>
@@ -488,129 +515,285 @@ export default function App() {
                   <span>Open for Opportunities & Collaborations</span>
                 </div>
               </TiltCard>
-            </div>
+            </ScrollReveal>
           </div>
+        </div>
+      </section>
+
+      {/* 6.5. Services / What I Can Build For You */}
+      <section id="services" className="services-section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">How I Can Help</span>
+              <h2 className="title">What I Can Build For You</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal stagger>
+            <div className="services-grid">
+              <div className="service-card">
+                <div className="service-icon">
+                  <i className="fas fa-laptop-code"></i>
+                </div>
+                <h3>Full-Stack Web Development</h3>
+                <p>Complete web applications from database architecture to polished frontend — built for performance, scalability, and real users.</p>
+              </div>
+
+              <div className="service-card">
+                <div className="service-icon">
+                  <i className="fas fa-robot"></i>
+                </div>
+                <h3>AI-Powered Automation</h3>
+                <p>Intelligent workflow systems using LLMs, AI agents, and prompt engineering to automate repetitive tasks and boost efficiency.</p>
+              </div>
+
+              <div className="service-card">
+                <div className="service-icon">
+                  <i className="fas fa-paint-brush"></i>
+                </div>
+                <h3>UI/UX & Frontend Design</h3>
+                <p>Pixel-perfect, responsive, animated interfaces that look premium and feel intuitive across every device and screen size.</p>
+              </div>
+
+              <div className="service-card">
+                <div className="service-icon">
+                  <i className="fas fa-database"></i>
+                </div>
+                <h3>Database & API Systems</h3>
+                <p>Scalable REST APIs, secure authentication, SQL/NoSQL databases, and robust backend architectures built for production.</p>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 7. Skills Section */}
       <section id="skills" className="skills-section">
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">Core Competencies</span>
-            <h2 className="title">Technical Toolbox</h2>
-            <div className="header-line"></div>
-          </div>
-
-          <div className="skills-grid">
-            <div className="skill-category">
-              <div className="category-header">
-                <i className="fas fa-code"></i>
-                <h3>Languages</h3>
-              </div>
-              <ul className="skill-list">
-                <li>JavaScript (ES6+)</li>
-                <li>Python</li>
-                <li>Java (Core)</li>
-                <li>SQL</li>
-                <li>HTML5 / CSS3</li>
-              </ul>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Core Competencies</span>
+              <h2 className="title">Technical Toolbox</h2>
+              <div className="header-line"></div>
             </div>
+          </ScrollReveal>
 
-            <div className="skill-category">
-              <div className="category-header">
-                <i className="fab fa-react"></i>
-                <h3>Frontend Development</h3>
+          <ScrollReveal stagger>
+            <div className="skills-grid">
+              <div className="skill-category">
+                <div className="category-header">
+                  <i className="fas fa-code"></i>
+                  <h3>Languages</h3>
+                </div>
+                <ul className="skill-list">
+                  <li>JavaScript (ES6+)</li>
+                  <li>Python</li>
+                  <li>Java (Core)</li>
+                  <li>SQL</li>
+                  <li>HTML5 / CSS3</li>
+                </ul>
               </div>
-              <ul className="skill-list">
-                <li>React.js</li>
-                <li>Vite</li>
-                <li>Responsive UI/UX</li>
-                <li>CSS Grid & Flexbox</li>
-                <li>CSS Animations / GSAP</li>
-              </ul>
-            </div>
 
-            <div className="skill-category">
-              <div className="category-header">
-                <i className="fas fa-server"></i>
-                <h3>Backend & Database</h3>
+              <div className="skill-category">
+                <div className="category-header">
+                  <i className="fab fa-react"></i>
+                  <h3>Frontend Development</h3>
+                </div>
+                <ul className="skill-list">
+                  <li>React.js</li>
+                  <li>Vite</li>
+                  <li>Responsive UI/UX</li>
+                  <li>CSS Grid & Flexbox</li>
+                  <li>CSS Animations / GSAP</li>
+                </ul>
               </div>
-              <ul className="skill-list">
-                <li>Node.js / Express.js</li>
-                <li>FastAPI</li>
-                <li>REST APIs</li>
-                <li>PostgreSQL / MongoDB</li>
-                <li>JWT Auth / Security</li>
-              </ul>
-            </div>
 
-            <div className="skill-category">
-              <div className="category-header">
-                <i className="fas fa-tools"></i>
-                <h3>DevOps & Tools</h3>
+              <div className="skill-category">
+                <div className="category-header">
+                  <i className="fas fa-server"></i>
+                  <h3>Backend & Database</h3>
+                </div>
+                <ul className="skill-list">
+                  <li>Node.js / Express.js</li>
+                  <li>FastAPI</li>
+                  <li>REST APIs</li>
+                  <li>PostgreSQL / MongoDB</li>
+                  <li>JWT Auth / Security</li>
+                </ul>
               </div>
-              <ul className="skill-list">
-                <li>Git & GitHub</li>
-                <li>Vercel / Render / Netlify</li>
-                <li>Playwright (Testing)</li>
-                <li>Postman / API Tools</li>
-                <li>VS Code / IntelliJ</li>
-              </ul>
+
+              <div className="skill-category">
+                <div className="category-header">
+                  <i className="fas fa-tools"></i>
+                  <h3>DevOps & Tools</h3>
+                </div>
+                <ul className="skill-list">
+                  <li>Git & GitHub</li>
+                  <li>Vercel / Render / Netlify</li>
+                  <li>Playwright (Testing)</li>
+                  <li>Postman / API Tools</li>
+                  <li>VS Code / IntelliJ</li>
+                </ul>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 8. Projects Section with 3D Tilt Cards */}
       <section id="projects" className="projects-section">
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">Showcase</span>
-            <h2 className="title">My Creations</h2>
-            <div className="header-line"></div>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Showcase</span>
+              <h2 className="title">My Creations</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
 
-          {/* Project Filters */}
-          <div className="project-filters">
-            <button className={`filter-tab ${projectFilter === 'all' ? 'active' : ''}`} onClick={() => setProjectFilter('all')}>All Projects</button>
-            <button className={`filter-tab ${projectFilter === 'fullstack' ? 'active' : ''}`} onClick={() => setProjectFilter('fullstack')}>Full-Stack & Interactive</button>
-            <button className={`filter-tab ${projectFilter === 'java' ? 'active' : ''}`} onClick={() => setProjectFilter('java')}>Java & SQL</button>
-            <button className={`filter-tab ${projectFilter === 'frontend' ? 'active' : ''}`} onClick={() => setProjectFilter('frontend')}>Frontend & Design</button>
-          </div>
+          {/* Project Search & Control Panel */}
+          <ScrollReveal>
+            <div className="projects-control-panel">
+              {/* Live Search Input */}
+              <div className="project-search-box">
+                <i className="fas fa-search project-search-icon"></i>
+                <input
+                  type="text"
+                  className="project-search-input"
+                  placeholder="Search creations by title, tech stack (e.g. React, Java, AI, MongoDB)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search creations"
+                />
+                {searchQuery && (
+                  <button 
+                    className="project-search-clear" 
+                    onClick={() => setSearchQuery('')}
+                    aria-label="Clear search"
+                    title="Clear search"
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
+
+              {/* Quick Tag Chips */}
+              <div className="quick-tags-wrapper">
+                <span className="quick-tags-label"><i className="fas fa-tags"></i> Popular:</span>
+                {quickFilterTags.map((tag) => (
+                  <button
+                    key={tag}
+                    className={`quick-tag-chip ${searchQuery.toLowerCase() === tag.toLowerCase() ? 'active' : ''}`}
+                    onClick={() => setSearchQuery(searchQuery.toLowerCase() === tag.toLowerCase() ? '' : tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+
+              {/* Project Category Filter Tabs with Live Counts */}
+              <div className="project-filters">
+                <button 
+                  className={`filter-tab ${projectFilter === 'all' ? 'active' : ''}`} 
+                  onClick={() => setProjectFilter('all')}
+                >
+                  All Projects <span className="filter-count">{categoryCounts.all}</span>
+                </button>
+                <button 
+                  className={`filter-tab ${projectFilter === 'fullstack' ? 'active' : ''}`} 
+                  onClick={() => setProjectFilter('fullstack')}
+                >
+                  Full-Stack & AI <span className="filter-count">{categoryCounts.fullstack}</span>
+                </button>
+                <button 
+                  className={`filter-tab ${projectFilter === 'java' ? 'active' : ''}`} 
+                  onClick={() => setProjectFilter('java')}
+                >
+                  Java & SQL <span className="filter-count">{categoryCounts.java}</span>
+                </button>
+                <button 
+                  className={`filter-tab ${projectFilter === 'frontend' ? 'active' : ''}`} 
+                  onClick={() => setProjectFilter('frontend')}
+                >
+                  Frontend & Design <span className="filter-count">{categoryCounts.frontend}</span>
+                </button>
+              </div>
+
+              {/* Live Results Counter & Reset Action */}
+              <div className="search-results-summary">
+                <span>
+                  Showing <strong>{filteredProjects.length}</strong> of {projectsData.length} creations
+                  {searchQuery && <> matching "<em>{searchQuery}</em>"</>}
+                </span>
+                {(searchQuery || projectFilter !== 'all') && (
+                  <button 
+                    className="reset-search-btn"
+                    onClick={() => { setSearchQuery(''); setProjectFilter('all'); }}
+                  >
+                    Reset all filters
+                  </button>
+                )}
+              </div>
+            </div>
+          </ScrollReveal>
 
           {/* Projects Display with 3D Tilt Wrapper */}
-          <div className="projects-grid">
-            {filteredProjects.map((project) => (
-              <TiltCard className={`project-card card-${project.category}`} key={project.id} onClick={() => setSelectedProject(project)}>
-                <div className="project-card-header">
-                  <span className="project-badge">{project.category}</span>
-                  <div className="project-icon-wrapper">
-                    <i className={
-                      project.category === 'fullstack' ? 'fas fa-laptop-code' :
-                      project.category === 'frontend' ? 'fab fa-react' : 'fab fa-java'
-                    }></i>
-                  </div>
-                </div>
-                <h3 className="project-card-title">{project.title}</h3>
-                <p className="project-card-desc">{project.tagline}</p>
-                <div className="project-card-tech">
-                  {project.techStack.map((tech, index) => (
-                    <span className="tech-tag" key={index}>{tech}</span>
-                  ))}
-                </div>
-                <div className="project-card-actions">
-                  <button className="project-card-btn">
-                    View Case Study <i className="fas fa-arrow-right"></i>
+          <ScrollReveal stagger>
+            <div className="projects-grid">
+              {filteredProjects.length > 0 ? (
+                filteredProjects.map((project) => (
+                  <TiltCard className={`project-card card-${project.category}`} key={project.id} onClick={() => setSelectedProject(project)}>
+                    <div className="project-card-header">
+                      <div>
+                        <span className="project-badge">{project.category}</span>
+                        {project.featured && (
+                          <span className="project-featured-tag">
+                            <i className="fas fa-star"></i> Featured
+                          </span>
+                        )}
+                      </div>
+                      <div className="project-icon-wrapper">
+                        <i className={
+                          project.category === 'fullstack' ? 'fas fa-laptop-code' :
+                          project.category === 'frontend' ? 'fab fa-react' : 'fab fa-java'
+                        }></i>
+                      </div>
+                    </div>
+                    <h3 className="project-card-title">{project.title}</h3>
+                    <p className="project-card-desc">{project.tagline}</p>
+                    <div className="project-card-tech">
+                      {project.techStack.map((tech, index) => (
+                        <span className="tech-tag" key={index}>{tech}</span>
+                      ))}
+                    </div>
+                    <div className="project-card-actions">
+                      <button className="project-card-btn">
+                        View Case Study <i className="fas fa-arrow-right"></i>
+                      </button>
+                      <div className="project-card-links" onClick={(e) => e.stopPropagation()}>
+                        {project.githubLink && <a href={project.githubLink} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i className="fab fa-github"></i></a>}
+                        {project.liveLink && <a href={project.liveLink} target="_blank" rel="noopener noreferrer" aria-label="Live Demo"><i className="fas fa-external-link-alt"></i></a>}
+                      </div>
+                    </div>
+                  </TiltCard>
+                ))
+              ) : (
+                <div className="no-projects-found">
+                  <div className="no-projects-icon">🔍</div>
+                  <h3>No creations found</h3>
+                  <p>We couldn't find any projects matching "{searchQuery}". Try searching for a different keyword or reset filters.</p>
+                  <button 
+                    className="btn btn-primary"
+                    onClick={() => { setSearchQuery(''); setProjectFilter('all'); }}
+                  >
+                    Show All Projects
                   </button>
-                  <div className="project-card-links" onClick={(e) => e.stopPropagation()}>
-                    {project.githubLink && <a href={project.githubLink} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i className="fab fa-github"></i></a>}
-                    {project.liveLink && <a href={project.liveLink} target="_blank" rel="noopener noreferrer" aria-label="Live Demo"><i className="fas fa-external-link-alt"></i></a>}
-                  </div>
                 </div>
-              </TiltCard>
-            ))}
-          </div>
+              )}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -659,205 +842,215 @@ export default function App() {
       {/* 10. Experience Timeline */}
       <section id="experience" className="experience-section">
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">Timeline</span>
-            <h2 className="title">Journey & Highlights</h2>
-            <div className="header-line"></div>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Timeline</span>
+              <h2 className="title">Journey & Highlights</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
 
-          <div className="timeline">
-            <div className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-date">Present</div>
-              <div className="timeline-content">
-                <h3>Full-Stack & AI Agent Developer</h3>
-                <p>Designing intelligent workflow automations, experimenting with LLM prompts, building responsive SaaS models, and custom client interfaces.</p>
+          <ScrollReveal>
+            <div className="timeline">
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-date">Present</div>
+                <div className="timeline-content">
+                  <h3>Full-Stack & AI Agent Developer</h3>
+                  <p>Designing intelligent workflow automations, experimenting with LLM prompts, building responsive SaaS models, and custom client interfaces.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-date">2024 - 2025</div>
+                <div className="timeline-content">
+                  <h3>Database & Java System Designs</h3>
+                  <p>Built robust JDBC transaction frameworks, custom database management models, and console logic games applying OOP architectures in Java.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-date">2023 - 2029 (Expected)</div>
+                <div className="timeline-content">
+                  <h3>B.Tech in Computer Science & Engineering</h3>
+                  <p>Lakshmi Narain College of Technology & Science (LNCTS), Bhopal • Expected Graduation: 2029. Focus on core programming concepts, data structures, algorithms, SQL querying, and full-stack software development.</p>
+                </div>
               </div>
             </div>
-
-            <div className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-date">2024 - 2025</div>
-              <div className="timeline-content">
-                <h3>Database & Java System Designs</h3>
-                <p>Built robust JDBC transaction frameworks, custom database management models, and console logic games applying OOP architectures in Java.</p>
-              </div>
-            </div>
-
-            <div className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-date">2023 - 2029 (Expected)</div>
-              <div className="timeline-content">
-                <h3>B.Tech in Computer Science & Engineering</h3>
-                <p>Lakshmi Narain College of Technology & Science (LNCTS), Bhopal • Expected Graduation: 2029. Focus on core programming concepts, data structures, algorithms, SQL querying, and full-stack software development.</p>
-              </div>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 10.5. Certifications & Achievements Section */}
       <section id="certifications" className="certifications-section">
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">Credentials</span>
-            <h2 className="title">Certifications & Training</h2>
-            <div className="header-line"></div>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Credentials</span>
+              <h2 className="title">Certifications & Training</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
 
-          <div className="certifications-grid">
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Software Engineering</span>
-                <div className="cert-icon-wrapper"><i className="fas fa-chart-line"></i></div>
-              </div>
-              <h3 className="cert-title">JP Morgan Chase & Co.</h3>
-              <p className="cert-sub">Software Engineering Job Simulation</p>
-              
-              <p className="cert-description">
-                Engineered interactive data charts and visualization feeds using React and Perspective. Formulated real-time stock dashboards and structured object-oriented system components.
-              </p>
+          <ScrollReveal stagger>
+            <div className="certifications-grid">
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Software Engineering</span>
+                  <div className="cert-icon-wrapper"><i className="fas fa-chart-line"></i></div>
+                </div>
+                <h3 className="cert-title">JP Morgan Chase & Co.</h3>
+                <p className="cert-sub">Software Engineering Job Simulation</p>
+                
+                <p className="cert-description">
+                  Engineered interactive data charts and visualization feeds using React and Perspective. Formulated real-time stock dashboards and structured object-oriented system components.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">React</span>
-                <span className="cert-skill-tag">Data Visualizer</span>
-                <span className="cert-skill-tag">OOP</span>
-              </div>
-              
-              <a href={import.meta.env.BASE_URL + "assets/certificates/jpmorgan.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">React</span>
+                  <span className="cert-skill-tag">Data Visualizer</span>
+                  <span className="cert-skill-tag">OOP</span>
+                </div>
+                
+                <a href={import.meta.env.BASE_URL + "assets/certificates/jpmorgan.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
 
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Cloud Infrastructure</span>
-                <div className="cert-icon-wrapper"><i className="fab fa-aws"></i></div>
-              </div>
-              <h3 className="cert-title">Amazon Web Services (AWS)</h3>
-              <p className="cert-sub">Cloud Practitioner & Architecture Foundations</p>
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Cloud Infrastructure</span>
+                  <div className="cert-icon-wrapper"><i className="fab fa-aws"></i></div>
+                </div>
+                <h3 className="cert-title">Amazon Web Services (AWS)</h3>
+                <p className="cert-sub">Cloud Practitioner & Architecture Foundations</p>
 
-              <p className="cert-description">
-                Deployed backend APIs and frontend bundles using EC2 and S3. Configured VPC network routing parameters, security groups, and cost-effective AWS Lambda routes.
-              </p>
+                <p className="cert-description">
+                  Deployed backend APIs and frontend bundles using EC2 and S3. Configured VPC network routing parameters, security groups, and cost-effective AWS Lambda routes.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">AWS EC2</span>
-                <span className="cert-skill-tag">S3 Storage</span>
-                <span className="cert-skill-tag">Serverless</span>
-              </div>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">AWS EC2</span>
+                  <span className="cert-skill-tag">S3 Storage</span>
+                  <span className="cert-skill-tag">Serverless</span>
+                </div>
 
-              <a href={import.meta.env.BASE_URL + "assets/certificates/aws.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
+                <a href={import.meta.env.BASE_URL + "assets/certificates/aws.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
 
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Secure Engineering</span>
-                <div className="cert-icon-wrapper"><i className="fas fa-shield-alt"></i></div>
-              </div>
-              <h3 className="cert-title">Commonwealth Bank</h3>
-              <p className="cert-sub">Software Engineering Job Simulation</p>
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Secure Engineering</span>
+                  <div className="cert-icon-wrapper"><i className="fas fa-shield-alt"></i></div>
+                </div>
+                <h3 className="cert-title">Commonwealth Bank</h3>
+                <p className="cert-sub">Software Engineering Job Simulation</p>
 
-              <p className="cert-description">
-                Secured REST APIs with token authorization parameters. Applied cryptography routines for user details encryption and audited potential vector risks using threat modeling templates.
-              </p>
+                <p className="cert-description">
+                  Secured REST APIs with token authorization parameters. Applied cryptography routines for user details encryption and audited potential vector risks using threat modeling templates.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">Cryptography</span>
-                <span className="cert-skill-tag">API Security</span>
-                <span className="cert-skill-tag">Threat Modeling</span>
-              </div>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">Cryptography</span>
+                  <span className="cert-skill-tag">API Security</span>
+                  <span className="cert-skill-tag">Threat Modeling</span>
+                </div>
 
-              <a href={import.meta.env.BASE_URL + "assets/certificates/commonwealth.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
+                <a href={import.meta.env.BASE_URL + "assets/certificates/commonwealth.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
 
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Industrial Dev</span>
-                <div className="cert-icon-wrapper"><i className="fas fa-industry"></i></div>
-              </div>
-              <h3 className="cert-title">Siemens</h3>
-              <p className="cert-sub">Software Engineering Simulation</p>
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Industrial Dev</span>
+                  <div className="cert-icon-wrapper"><i className="fas fa-industry"></i></div>
+                </div>
+                <h3 className="cert-title">Siemens</h3>
+                <p className="cert-sub">Software Engineering Simulation</p>
 
-              <p className="cert-description">
-                Explored factory automation architectures, analyzed IoT communication models, and developed test suites to evaluate diagnostic program performance.
-              </p>
+                <p className="cert-description">
+                  Explored factory automation architectures, analyzed IoT communication models, and developed test suites to evaluate diagnostic program performance.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">IIoT</span>
-                <span className="cert-skill-tag">Automation Testing</span>
-                <span className="cert-skill-tag">System Pipelines</span>
-              </div>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">IIoT</span>
+                  <span className="cert-skill-tag">Automation Testing</span>
+                  <span className="cert-skill-tag">System Pipelines</span>
+                </div>
 
-              <a href={import.meta.env.BASE_URL + "assets/certificates/siemens.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
+                <a href={import.meta.env.BASE_URL + "assets/certificates/siemens.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
 
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Artificial Intelligence</span>
-                <div className="cert-icon-wrapper"><i className="fas fa-robot"></i></div>
-              </div>
-              <h3 className="cert-title">Tata Consultancy Services</h3>
-              <p className="cert-sub">Generative AI Career Experience</p>
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Artificial Intelligence</span>
+                  <div className="cert-icon-wrapper"><i className="fas fa-robot"></i></div>
+                </div>
+                <h3 className="cert-title">Tata Consultancy Services</h3>
+                <p className="cert-sub">Generative AI Career Experience</p>
 
-              <p className="cert-description">
-                Integrated LLM services into SaaS products, designed effective prompting styles, managed temperature parameters, and analyzed data safety compliance standards.
-              </p>
+                <p className="cert-description">
+                  Integrated LLM services into SaaS products, designed effective prompting styles, managed temperature parameters, and analyzed data safety compliance standards.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">GenAI</span>
-                <span className="cert-skill-tag">LLMs</span>
-                <span className="cert-skill-tag">Prompt Design</span>
-              </div>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">GenAI</span>
+                  <span className="cert-skill-tag">LLMs</span>
+                  <span className="cert-skill-tag">Prompt Design</span>
+                </div>
 
-              <a href={import.meta.env.BASE_URL + "assets/certificates/tatagenai.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
+                <a href={import.meta.env.BASE_URL + "assets/certificates/tatagenai.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
 
-            <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
-              <div className="cert-header">
-                <span className="cert-badge">Leadership & Growth</span>
-                <div className="cert-icon-wrapper"><i className="fas fa-users"></i></div>
-              </div>
-              <h3 className="cert-title">All India Career Summit</h3>
-              <p className="cert-sub">Emerging Leader Participant</p>
+              <TiltCard className="certificate-card" restTransform="perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)">
+                <div className="cert-header">
+                  <span className="cert-badge">Leadership & Growth</span>
+                  <div className="cert-icon-wrapper"><i className="fas fa-users"></i></div>
+                </div>
+                <h3 className="cert-title">All India Career Summit</h3>
+                <p className="cert-sub">Emerging Leader Participant</p>
 
-              <p className="cert-description">
-                Coordinated cross-functional task teams to propose technical sustainability designs. Practiced agile task flows and presented solutions directly to engineering panels.
-              </p>
+                <p className="cert-description">
+                  Coordinated cross-functional task teams to propose technical sustainability designs. Practiced agile task flows and presented solutions directly to engineering panels.
+                </p>
 
-              <div className="cert-skills">
-                <span className="cert-skill-tag">Leadership</span>
-                <span className="cert-skill-tag">Agile Workflows</span>
-                <span className="cert-skill-tag">Collaboration</span>
-              </div>
+                <div className="cert-skills">
+                  <span className="cert-skill-tag">Leadership</span>
+                  <span className="cert-skill-tag">Agile Workflows</span>
+                  <span className="cert-skill-tag">Collaboration</span>
+                </div>
 
-              <a href={import.meta.env.BASE_URL + "assets/certificates/careersummit.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
-                View Certificate <i className="fas fa-file-pdf"></i>
-              </a>
-            </TiltCard>
-          </div>
+                <a href={import.meta.env.BASE_URL + "assets/certificates/careersummit.pdf"} target="_blank" rel="noopener noreferrer" className="cert-link">
+                  View Certificate <i className="fas fa-file-pdf"></i>
+                </a>
+              </TiltCard>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* 11. Contact Section */}
       <section id="contact" className="contact-section">
         <div className="container">
-          <div className="section-header">
-            <span className="subtitle">Get In Touch</span>
-            <h2 className="title">Let's Build Something Together</h2>
-            <div className="header-line"></div>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Get In Touch</span>
+              <h2 className="title">Let's Build Something Together</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
 
           <div className="contact-grid">
-            <div className="contact-info">
+            <ScrollReveal className="contact-info">
               <h3>Contact Info</h3>
               <p>Feel free to reach out for project collaboration, job opportunities, or just to say hi!</p>
 
@@ -884,9 +1077,9 @@ export default function App() {
                 <a href="https://www.linkedin.com/in/raunak-sharma-q64/" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin-in"></i></a>
                 <a href="https://www.instagram.com/raunak_sharma73?igsh=MW14bHFjbHY2bWtybA==" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
               </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="contact-form-wrapper">
+            <ScrollReveal direction="left" className="contact-form-wrapper">
               {formStatus === 'success' ? (
                 <div className="form-success-message" style={{ textAlign: 'center', padding: '2rem' }}>
                   <div className="success-icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
@@ -955,7 +1148,7 @@ export default function App() {
                   </button>
                 </form>
               )}
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
