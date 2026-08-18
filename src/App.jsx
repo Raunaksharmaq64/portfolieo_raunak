@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { projectsData } from './data/projectsData';
+import { testimonialsData } from './data/testimonialsData';
+import { articlesData } from './data/articlesData';
 import TiltCard from './components/TiltCard';
 import InteractiveBackground from './components/InteractiveBackground';
 import DevTerminal from './components/DevTerminal';
@@ -31,6 +33,7 @@ export default function App() {
   const [projectFilter, setProjectFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
@@ -165,7 +168,7 @@ export default function App() {
 
   // Lock body scroll when popup, modal, or mobile menu is open
   useEffect(() => {
-    if (showWelcomePopup || selectedProject || mobileMenuOpen) {
+    if (showWelcomePopup || selectedProject || selectedArticle || mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -173,11 +176,14 @@ export default function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showWelcomePopup, selectedProject, mobileMenuOpen]);
+  }, [showWelcomePopup, selectedProject, selectedArticle, mobileMenuOpen]);
 
   // Scroll-spy: track which section is in view
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'services', 'skills', 'projects', 'experience', 'certifications', 'contact'];
+    const sectionIds = [
+      'hero', 'about', 'github', 'services', 'skills', 
+      'projects', 'testimonials', 'experience', 'certifications', 'articles', 'contact'
+    ];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -264,8 +270,8 @@ export default function App() {
         </div>
       )}
 
-      {/* 2. Scroll Progress */}
-      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
+      {/* 2. Top Scroll Progress Indicator */}
+      <div className="top-scroll-progress-bar" style={{ width: `${scrollProgress}%` }} aria-hidden="true"></div>
 
       {/* 3. Welcome Popup Modal */}
       {showWelcomePopup && (
@@ -315,8 +321,10 @@ export default function App() {
             <li><a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Services</a></li>
             <li><a href="#skills" className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Skills</a></li>
             <li><a href="#projects" className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Projects</a></li>
+            <li><a href="#testimonials" className={`nav-link ${activeSection === 'testimonials' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Reviews</a></li>
             <li><a href="#experience" className={`nav-link ${activeSection === 'experience' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Experience</a></li>
             <li><a href="#certifications" className={`nav-link ${activeSection === 'certifications' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Certifications</a></li>
+            <li><a href="#articles" className={`nav-link ${activeSection === 'articles' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Articles</a></li>
             <li><a href="#contact" className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
           </ul>
 
@@ -517,6 +525,75 @@ export default function App() {
               </TiltCard>
             </ScrollReveal>
           </div>
+        </div>
+      </section>
+
+      {/* 6.3. GitHub Live Stats & Activity Showcase */}
+      <section id="github" className="github-showcase-section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="github-card">
+              <div className="github-card-header">
+                <div className="github-user-info">
+                  <img 
+                    src="https://avatars.githubusercontent.com/u/148003666?v=4" 
+                    alt="Raunak Sharma GitHub" 
+                    className="github-avatar"
+                    onError={(e) => { e.target.src = import.meta.env.BASE_URL + "assets/images/raunak.png"; }}
+                  />
+                  <div className="github-user-details">
+                    <h3>Raunak Sharma <i className="fab fa-github" style={{ color: 'hsl(var(--accent-color))' }}></i></h3>
+                    <p>@Raunaksharmaq64 • Active Open Source Developer</p>
+                  </div>
+                </div>
+
+                <a 
+                  href="https://github.com/Raunaksharmaq64" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-secondary"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <i className="fab fa-github"></i> Visit GitHub Profile
+                </a>
+              </div>
+
+              <div className="github-stats-grid">
+                <div className="github-stat-box">
+                  <div className="github-stat-value">17+</div>
+                  <div className="github-stat-label">Public Repos</div>
+                </div>
+                <div className="github-stat-box">
+                  <div className="github-stat-value">100+</div>
+                  <div className="github-stat-label">Total Commits</div>
+                </div>
+                <div className="github-stat-box">
+                  <div className="github-stat-value">100%</div>
+                  <div className="github-stat-label">Project Shipped</div>
+                </div>
+                <div className="github-stat-box">
+                  <div className="github-stat-value">2026</div>
+                  <div className="github-stat-label">Active Streak</div>
+                </div>
+              </div>
+
+              <div className="github-lang-bars">
+                <div className="github-lang-title">Primary Tech Distribution</div>
+                <div className="github-multi-bar">
+                  <div className="lang-segment js" title="JavaScript (45%)"></div>
+                  <div className="lang-segment java" title="Java & SQL (30%)"></div>
+                  <div className="lang-segment py" title="Python & AI (15%)"></div>
+                  <div className="lang-segment html" title="HTML/CSS (10%)"></div>
+                </div>
+                <div className="github-lang-legend">
+                  <div className="lang-legend-item"><span className="lang-dot js"></span> JavaScript (45%)</div>
+                  <div className="lang-legend-item"><span className="lang-dot java"></span> Java & SQL (30%)</div>
+                  <div className="lang-legend-item"><span className="lang-dot py"></span> Python & AI (15%)</div>
+                  <div className="lang-legend-item"><span className="lang-dot html"></span> HTML / CSS (10%)</div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -839,6 +916,45 @@ export default function App() {
         </div>
       )}
 
+      {/* 9.5. Testimonials & Social Proof Section */}
+      <section id="testimonials" className="testimonials-section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Client & Collaborator Words</span>
+              <h2 className="title">Recommendations & Feedback</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal stagger>
+            <div className="testimonials-grid">
+              {testimonialsData.map((item) => (
+                <div className="testimonial-card" key={item.id}>
+                  <div>
+                    <div className="testimonial-stars">
+                      {Array.from({ length: item.rating }).map((_, i) => (
+                        <i className="fas fa-star" key={i}></i>
+                      ))}
+                    </div>
+                    <p className="testimonial-quote">"{item.content}"</p>
+                  </div>
+
+                  <div className="testimonial-author-wrapper">
+                    <div className="testimonial-avatar">{item.initials}</div>
+                    <div className="testimonial-author-info">
+                      <h4>{item.name}</h4>
+                      <p>{item.role} • {item.location}</p>
+                      <span className="testimonial-project-tag">Project: {item.project}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* 10. Experience Timeline */}
       <section id="experience" className="experience-section">
         <div className="container">
@@ -1037,6 +1153,72 @@ export default function App() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* 10.8. Articles & Tech Insights Section */}
+      <section id="articles" className="articles-section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <span className="subtitle">Writings & Thoughts</span>
+              <h2 className="title">Engineering Articles & Case Studies</h2>
+              <div className="header-line"></div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal stagger>
+            <div className="articles-grid">
+              {articlesData.map((art) => (
+                <div className="article-card" key={art.id} onClick={() => setSelectedArticle(art)}>
+                  <div>
+                    <div className="article-meta">
+                      <span className="article-tag"><i className={art.icon}></i> {art.tag}</span>
+                      <span className="article-read-time">{art.readTime}</span>
+                    </div>
+                    <h3 className="article-title">{art.title}</h3>
+                    <p className="article-summary">{art.summary}</p>
+                  </div>
+
+                  <div className="article-read-btn">
+                    Read Case Study <i className="fas fa-arrow-right"></i>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Article Reader Modal */}
+      {selectedArticle && (
+        <div className="modal-overlay active" onClick={(e) => e.target.classList.contains('modal-overlay') && setSelectedArticle(null)}>
+          <div className="modal-content" style={{ maxWidth: '780px' }}>
+            <button className="modal-close-btn" onClick={() => setSelectedArticle(null)} aria-label="Close article">&times;</button>
+            <div className="modal-body">
+              <span className="modal-badge">{selectedArticle.tag} • {selectedArticle.readTime}</span>
+              <h2 style={{ marginTop: '0.5rem', marginBottom: '0.75rem', fontSize: '1.6rem' }}>{selectedArticle.title}</h2>
+              <p style={{ color: 'hsl(var(--text-secondary))', fontSize: '0.85rem', marginBottom: '1.5rem' }}>Published {selectedArticle.date} by Raunak Sharma</p>
+
+              <div style={{ background: 'rgba(251, 191, 36, 0.05)', borderLeft: '3px solid hsl(var(--accent-color))', padding: '1rem 1.25rem', borderRadius: '0 8px 8px 0', marginBottom: '1.8rem', fontStyle: 'italic', color: 'hsl(var(--text-primary))' }}>
+                {selectedArticle.summary}
+              </div>
+
+              {selectedArticle.sections.map((sec, i) => (
+                <div key={i} style={{ marginBottom: '1.8rem' }}>
+                  <h3 style={{ fontSize: '1.15rem', color: 'hsl(var(--accent-color))', marginBottom: '0.5rem' }}>{sec.heading}</h3>
+                  <p style={{ lineHeight: '1.7', color: 'hsl(var(--text-secondary))', fontSize: '0.95rem' }}>{sec.body}</p>
+                </div>
+              ))}
+
+              <div className="modal-footer-actions" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '1.25rem' }}>
+                <button className="btn btn-primary" onClick={() => setSelectedArticle(null)}>Done Reading</button>
+                <a href="#contact" className="btn btn-secondary" onClick={() => { setSelectedArticle(null); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                  Discuss this topic <i className="fas fa-comment"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 11. Contact Section */}
       <section id="contact" className="contact-section">

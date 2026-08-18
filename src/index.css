@@ -3064,3 +3064,388 @@ body.light-theme .service-icon {
     align-items: flex-start;
   }
 }
+
+/* ==========================================
+   TOP SCROLL PROGRESS INDICATOR BAR
+   ========================================== */
+
+.top-scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3.5px;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b, #ef4444);
+  z-index: 10001;
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+}
+
+/* ==========================================
+   GITHUB LIVE STATS & ACTIVITY SHOWCASE
+   ========================================== */
+
+.github-showcase-section {
+  padding: 4rem 0 6rem;
+  background: hsl(var(--bg-primary));
+}
+
+.github-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.github-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.github-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.github-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid hsl(var(--accent-color));
+}
+
+.github-user-details h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.github-user-details p {
+  margin: 0;
+  color: hsl(var(--text-secondary));
+  font-size: 0.88rem;
+}
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.github-stat-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 1.2rem;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.github-stat-box:hover {
+  border-color: hsl(var(--accent-color) / 0.3);
+  transform: translateY(-3px);
+  background: rgba(251, 191, 36, 0.03);
+}
+
+.github-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: hsl(var(--accent-color));
+  margin-bottom: 0.2rem;
+}
+
+.github-stat-label {
+  font-size: 0.8rem;
+  color: hsl(var(--text-secondary));
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.github-lang-bars {
+  margin-top: 1rem;
+}
+
+.github-lang-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: hsl(var(--text-secondary));
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.github-multi-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.lang-segment {
+  height: 100%;
+}
+
+.lang-segment.js { width: 45%; background-color: #f7df1e; }
+.lang-segment.java { width: 30%; background-color: #b07219; }
+.lang-segment.py { width: 15%; background-color: #3572A5; }
+.lang-segment.html { width: 10%; background-color: #e34c26; }
+
+.github-lang-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.82rem;
+}
+
+.lang-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.lang-dot.js { background-color: #f7df1e; }
+.lang-dot.java { background-color: #b07219; }
+.lang-dot.py { background-color: #3572A5; }
+.lang-dot.html { background-color: #e34c26; }
+
+/* ==========================================
+   TESTIMONIALS & SOCIAL PROOF SECTION
+   ========================================== */
+
+.testimonials-section {
+  padding: 8rem 0;
+  background-color: hsl(var(--bg-secondary));
+  position: relative;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: hsl(var(--accent-color) / 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 15px rgba(251, 191, 36, 0.05);
+}
+
+.testimonial-stars {
+  color: #fbbf24;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.testimonial-quote {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: hsl(var(--text-secondary));
+  margin-bottom: 1.8rem;
+  font-style: italic;
+}
+
+.testimonial-author-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1.25rem;
+}
+
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsl(var(--accent-color)), #d97706);
+  color: #030712;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.testimonial-author-info h4 {
+  font-size: 1rem;
+  margin: 0 0 0.15rem 0;
+  font-family: var(--font-display);
+}
+
+.testimonial-author-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: hsl(var(--text-secondary));
+}
+
+.testimonial-project-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: hsl(var(--accent-color));
+  background: rgba(251, 191, 36, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.35rem;
+}
+
+/* ==========================================
+   ARTICLES & TECH CASE STUDIES SECTION
+   ========================================== */
+
+.articles-section {
+  padding: 8rem 0;
+  background-color: hsl(var(--bg-primary));
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.article-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: hsl(var(--accent-color) / 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 15px rgba(251, 191, 36, 0.06);
+}
+
+.article-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+.article-tag {
+  color: hsl(var(--accent-color));
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+}
+
+.article-read-time {
+  color: hsl(var(--text-secondary));
+}
+
+.article-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.article-summary {
+  color: hsl(var(--text-secondary));
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.article-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: hsl(var(--accent-color));
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Light Theme Overrides for All New Sections */
+body.light-theme .github-card,
+body.light-theme .testimonial-card,
+body.light-theme .article-card {
+  background: linear-gradient(135deg, #ffffff, #fafafa);
+  border-color: hsl(var(--border-color));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .github-card:hover,
+body.light-theme .testimonial-card:hover,
+body.light-theme .article-card:hover {
+  border-color: #d97706;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 0 15px rgba(217, 119, 6, 0.08);
+}
+
+body.light-theme .github-stat-box {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .testimonial-author-wrapper {
+  border-color: #e2e8f0;
+}
+
+body.light-theme .testimonial-quote {
+  color: #334155;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .testimonials-section,
+  .articles-section {
+    padding: 5rem 0;
+  }
+
+  .github-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .testimonials-grid,
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
