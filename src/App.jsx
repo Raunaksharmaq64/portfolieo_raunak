@@ -135,6 +135,18 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when popup, modal, or mobile menu is open
+  useEffect(() => {
+    if (showWelcomePopup || selectedProject || mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showWelcomePopup, selectedProject, mobileMenuOpen]);
+
   // Scroll-spy: track which section is in view
   useEffect(() => {
     const sectionIds = ['hero', 'about', 'skills', 'projects', 'experience', 'certifications', 'contact'];
@@ -255,12 +267,24 @@ export default function App() {
       )}
 
       {/* 4. Header & Navbar Navigation */}
+      {/* 4. Header & Navbar Navigation */}
       <header className={`header ${headerScrolled ? 'scrolled' : ''}`}>
         <div className="logo">
           <a href="#hero">R<span>aunak</span></a>
         </div>
 
+        {/* Mobile menu backdrop overlay */}
+        <div 
+          className={`mobile-nav-backdrop ${mobileMenuOpen ? 'active' : ''}`} 
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        ></div>
+
         <nav className={`navbar ${mobileMenuOpen ? 'active' : ''}`}>
+          <div className="mobile-nav-header">
+            <span className="mobile-nav-title">Menu</span>
+            <button className="mobile-nav-close" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">&times;</button>
+          </div>
           <ul className="nav-links">
             <li><a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</a></li>
             <li><a href="#about" className={`nav-link ${activeSection === 'about' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About</a></li>
@@ -270,6 +294,15 @@ export default function App() {
             <li><a href="#certifications" className={`nav-link ${activeSection === 'certifications' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Certifications</a></li>
             <li><a href="#contact" className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
           </ul>
+
+          <div className="mobile-drawer-actions">
+            <a href={import.meta.env.BASE_URL + "resume.html"} className="btn-resume-view mobile-resume-link" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+              <i className="fas fa-eye"></i> Live Resume
+            </a>
+            <a href={import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf"} className="btn-resume mobile-resume-link" download="Raunak_Sharma_Resume.pdf" onClick={() => setMobileMenuOpen(false)}>
+              <i className="fas fa-download"></i> Download PDF
+            </a>
+          </div>
         </nav>
 
         <div className="header-right">
@@ -278,7 +311,7 @@ export default function App() {
           </button>
           <a href={import.meta.env.BASE_URL + "resume.html"} className="btn-resume-view" target="_blank" rel="noopener noreferrer">View Resume <i className="fas fa-eye"></i></a>
           <a href={import.meta.env.BASE_URL + "assets/images/Raunak_Resume.pdf"} className="btn-resume" download="Raunak_Sharma_Resume.pdf">Download <i className="fas fa-download"></i></a>
-          <button className={`hamburger ${mobileMenuOpen ? 'active' : ''}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Open menu">
+          <button className={`hamburger ${mobileMenuOpen ? 'active' : ''}`} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu" aria-expanded={mobileMenuOpen}>
             <span className="bar"></span>
             <span className="bar"></span>
             <span className="bar"></span>
@@ -653,10 +686,10 @@ export default function App() {
 
             <div className="timeline-item">
               <div className="timeline-dot"></div>
-              <div className="timeline-date">2023 - Present</div>
+              <div className="timeline-date">2023 - 2029 (Expected)</div>
               <div className="timeline-content">
                 <h3>B.Tech in Computer Science & Engineering</h3>
-                <p>Lakshmi Narain College of Technology & Science (LNCTS), Bhopal. Focus on core programming concepts, data structures, algorithms, SQL querying, and responsive web development interfaces.</p>
+                <p>Lakshmi Narain College of Technology & Science (LNCTS), Bhopal • Expected Graduation: 2029. Focus on core programming concepts, data structures, algorithms, SQL querying, and full-stack software development.</p>
               </div>
             </div>
           </div>

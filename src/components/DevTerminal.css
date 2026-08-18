@@ -232,16 +232,36 @@ body.light-theme .terminal-manual-overlay code {
 }
 
 /* Responsive Terminal adjustments */
-@media (max-width: 480px) {
-  .terminal-window {
-    width: 310px;
-    height: 270px;
-    bottom: 1rem;
-    right: 1rem;
-  }
+@media (max-width: 680px) {
   .dev-terminal-container {
     bottom: 1rem;
     right: 1rem;
+  }
+  .terminal-window {
+    width: calc(100vw - 2rem);
+    max-width: 420px;
+    height: 400px;
+    max-height: 72vh;
+  }
+  .terminal-floating-btn {
+    padding: 0.75rem 1.1rem;
+    font-size: 0.82rem;
+  }
+  .terminal-hint-bubble {
+    width: calc(100vw - 3rem);
+    max-width: 250px;
+    bottom: 65px;
+  }
+}
+
+@media (max-width: 400px) {
+  .terminal-window {
+    width: calc(100vw - 1.5rem);
+    height: 360px;
+  }
+  .dev-terminal-container {
+    bottom: 0.75rem;
+    right: 0.75rem;
   }
 }
 

@@ -5,20 +5,21 @@ export default function InteractiveBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !canvas.parentElement) return;
     const ctx = canvas.getContext('2d');
+    const parent = canvas.parentElement;
 
     let animationId;
     let particles = [];
     let mouse = { x: null, y: null, radius: 120 };
+    let isVisible = true;
 
     const resize = () => {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
+      if (!canvas || !parent) return;
+      canvas.width = parent.offsetWidth || window.innerWidth;
+      canvas.height = parent.offsetHeight || window.innerHeight;
+      init();
     };
-
-    resize();
-    window.addEventListener('resize', resize);
 
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect();
@@ -31,13 +32,14 @@ export default function InteractiveBackground() {
       mouse.y = null;
     };
 
-    canvas.parentElement.addEventListener('mousemove', handleMouseMove);
-    canvas.parentElement.addEventListener('mouseleave', handleMouseLeave);
+    parent.addEventListener('mousemove', handleMouseMove, { passive: true });
+    parent.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
 
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas.width || 800);
+        this.y = Math.random() * (canvas.height || 600);
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.radius = Math.random() * 2 + 1;
@@ -55,7 +57,7 @@ export default function InteractiveBackground() {
           const dy = this.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           
-          if (dist < mouse.radius) {
+          if (dist < mouse.radius && dist > 0) {
             const force = (mouse.radius - dist) / mouse.radius;
             const angle = Math.atan2(dy, dx);
             this.x += Math.cos(angle) * force * 2;
@@ -75,40 +77,50 @@ export default function InteractiveBackground() {
 
     const init = () => {
       particles = [];
-      const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 10000));
+      const w = canvas.width || 800;
+      const h = canvas.height || 600;
+      const count = Math.min(70, Math.max(25, Math.floor((w * h) / 14000)));
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
     };
 
-    init();
+    resize();
+
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (isVisible && canvas.width > 0 && canvas.height > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((p, index) => {
-        p.update();
-        p.draw();
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.update();
+          p.draw();
 
-        for (let j = index + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            const isLightTheme = document.body.classList.contains('light-theme');
-            ctx.strokeStyle = isLightTheme 
-              ? `rgba(180, 130, 30, ${0.18 * (1 - dist / 100)})` 
-              : `rgba(251, 191, 36, ${0.12 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            if (dist < 90) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              const isLightTheme = document.body.classList.contains('light-theme');
+              ctx.strokeStyle = isLightTheme 
+                ? `rgba(180, 130, 30, ${0.18 * (1 - dist / 90)})` 
+                : `rgba(251, 191, 36, ${0.12 * (1 - dist / 90)})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
-      });
+      }
 
       animationId = requestAnimationFrame(animate);
     };
@@ -117,9 +129,10 @@ export default function InteractiveBackground() {
 
     return () => {
       window.removeEventListener('resize', resize);
-      if (canvas.parentElement) {
-        canvas.parentElement.removeEventListener('mousemove', handleMouseMove);
-        canvas.parentElement.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (parent) {
+        parent.removeEventListener('mousemove', handleMouseMove);
+        parent.removeEventListener('mouseleave', handleMouseLeave);
       }
       cancelAnimationFrame(animationId);
     };
@@ -127,3 +140,4 @@ export default function InteractiveBackground() {
 
   return <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }} />;
 }
+
