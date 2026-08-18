@@ -482,6 +482,21 @@ export default function DevTerminal() {
             </div>
           )}
 
+          {/* Quick Action Commands Bar */}
+          {!isMatrixActive && !showManual && (
+            <div className="terminal-quick-actions">
+              <span className="quick-actions-label">Quick:</span>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('help')}>help</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('hire')}>hire</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('matrix')}>matrix</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('projects')}>projects</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('game')}>game</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('skills')}>skills</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('weather')}>weather</button>
+              <button type="button" className="terminal-chip" onClick={() => handleCommand('cls')}>clear</button>
+            </div>
+          )}
+
           {showManual && !isMatrixActive ? (
             <div className="terminal-body terminal-manual">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(251, 191, 36, 0.3)', paddingBottom: '8px', marginBottom: '12px' }}>
@@ -494,7 +509,7 @@ export default function DevTerminal() {
                 </button>
               </div>
               <p style={{ color: '#9ca3af', fontSize: '0.8rem', marginBottom: '12px' }}>
-                Tip: Press <kbd style={{ background: '#374151', padding: '2px 4px', borderRadius: '3px' }}>Tab</kbd> for autocompletion or <kbd style={{ background: '#374151', padding: '2px 4px', borderRadius: '3px' }}>↑</kbd>/<kbd style={{ background: '#374151', padding: '2px 4px', borderRadius: '3px' }}>↓</kbd> for command history.
+                Tip: Press <kbd style={{ background: '#374151', padding: '2px 4px', borderRadius: '3px' }}>Tab</kbd> for autocompletion or tap any of the quick action chips.
               </p>
               <table style={{ width: '100%', fontSize: '0.8rem', borderCollapse: 'collapse' }}>
                 <thead>

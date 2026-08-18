@@ -1310,8 +1310,15 @@ export default function App() {
                   </div>
 
                   {formStatus === 'missing_key' && (
-                    <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '4px', marginBottom: '1rem', fontSize: '0.9rem', color: '#ef4444' }}>
-                      <strong>Action Required:</strong> Please register a free access key at <a href="https://web3forms.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'underline' }}>web3forms.com</a> and paste it into the <code>WEB3FORMS_ACCESS_KEY</code> constant at the top of <code>src/App.jsx</code> to enable emails.
+                    <div style={{ padding: '1rem', background: 'rgba(251, 191, 36, 0.1)', border: '1px solid rgba(251, 191, 36, 0.3)', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.88rem', color: 'hsl(var(--text-primary))' }}>
+                      <p style={{ margin: '0 0 0.5rem 0' }}>💡 <strong>Quick Send:</strong> You can send your message directly to Raunak's inbox:</p>
+                      <a 
+                        href={`mailto:raunaksharma88630mt@gmail.com?subject=${encodeURIComponent('Portfolio Contact from ' + (contactForm.name || 'Visitor'))}&body=${encodeURIComponent(contactForm.message || '')}`}
+                        className="btn btn-primary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.8rem', fontSize: '0.82rem', marginTop: '0.25rem' }}
+                      >
+                        Send via Email App <i className="fas fa-paper-plane"></i>
+                      </a>
                     </div>
                   )}
 
